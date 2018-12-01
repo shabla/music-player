@@ -2,14 +2,10 @@
 
 $app-bar-height: 40px;
 
-$menu-height: 30px;
-$menu-background: #333;
-$menu-text: #ddd;
-
 $player-infos-height: 50px;
 $timeline-height: 40px;
 $controls-height: 50px;
-$player-height: $player-infos-height + $timeline-height + $controls-height;
+$player-height: $player-infos-height + $timeline-height + $controls-height + 200px;
 $section-spacing: 5px;
 
 $color-white: #eee;
@@ -21,7 +17,7 @@ body {
 	height: 100vh;
 }
 
-.window {
+.app {
 	@extend .layout-column;
 
 	font-family: Tahoma, sans-serif;
@@ -62,38 +58,16 @@ body {
 		}
 	}
 
-	.menu {
-		@extend .layout-row;
-		@extend .layout-align--start-center;
-		@extend .flex--noshrink;
-		@extend .flex--noshrink;
-
-		height: $menu-height;
-		background: $menu-background;
-		color: $menu-text;
-		padding: 0 5px;
-
-		.menu-item {
-			@extend .layout-column;
-			@extend .layout-align--center-center;
-
-			height: $menu-height;
-			padding: 0 10px;
-			user-select: none;
-			font-size: 12px;
-
-			&:hover {
-				cursor: pointer;
-				background: transparentize($color: white, $amount: 0.95);
-			}
-		}
+	#wave {
+		@extend .layout-column;
+		@extend .layout-align--center-center;
 	}
 
 	> main {
 		@extend .layout-column;
 
 		padding: $section-spacing;
-		height: calc(100vh - #{$app-bar-height + $menu-height});
+		height: calc(100vh - #{$app-bar-height});
 	}
 
 	.slider {
@@ -110,6 +84,10 @@ body {
 			opacity: 1;
 		}
 
+		&[disabled] {
+			opacity: 0.1;
+		}
+
 		&::-webkit-slider-thumb {
 			-webkit-appearance: none;
 			width: 35px;
@@ -124,7 +102,7 @@ body {
 		@extend .flex--noshrink;
 
 		overflow: hidden;
-		height: $player-height;
+		// height: $player-height;
 
 		.infos {
 			@extend .layout-row;
@@ -135,9 +113,9 @@ body {
 
 			.time {
 				@extend .layout-column;
-				@extend .layout-align--center;
+				@extend .layout-align--center-center;
 
-				padding: 0 15px;
+				width: 100px;
 				font-size: 30px;
 				user-select: none;
 				color: $color-white;
@@ -252,6 +230,7 @@ body {
 
 				&:hover {
 					cursor: default;
+					background: rgba(255, 255, 255, 0.1);
 				}
 			}
 		}
