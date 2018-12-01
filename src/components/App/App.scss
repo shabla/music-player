@@ -1,0 +1,285 @@
+@import "../../styles/_flex";
+
+$app-bar-height: 40px;
+
+$menu-height: 30px;
+$menu-background: #333;
+$menu-text: #ddd;
+
+$player-infos-height: 50px;
+$timeline-height: 40px;
+$controls-height: 50px;
+$player-height: $player-infos-height + $timeline-height + $controls-height;
+$section-spacing: 5px;
+
+$color-white: #eee;
+$color-primary: #1c3d7d;
+$color-highlight: #6788c9;
+
+html,
+body {
+	height: 100vh;
+}
+
+.window {
+	@extend .layout-column;
+
+	font-family: Tahoma, sans-serif;
+	font-size: 14px;
+	background: #222;
+	height: 100vh;
+
+	.app-bar {
+		@extend .layout-row;
+		@extend .layout-align--space-between-center;
+		@extend .flex--noshrink;
+
+		background: #222;
+		height: $app-bar-height;
+		padding: 0 10px;
+		user-select: none;
+
+		.title {
+			font-size: 20px;
+			font-weight: 700;
+			color: #eee;
+		}
+
+		button.control {
+			border: 0;
+			outline: 0;
+			color: #eee;
+			background: transparent;
+			height: 30px;
+			width: 30px;
+			font-size: 14px;
+			border-radius: 100%;
+
+			&:hover {
+				cursor: pointer;
+				background: transparentize(white, 0.9);
+			}
+		}
+	}
+
+	.menu {
+		@extend .layout-row;
+		@extend .layout-align--start-center;
+		@extend .flex--noshrink;
+		@extend .flex--noshrink;
+
+		height: $menu-height;
+		background: $menu-background;
+		color: $menu-text;
+		padding: 0 5px;
+
+		.menu-item {
+			@extend .layout-column;
+			@extend .layout-align--center-center;
+
+			height: $menu-height;
+			padding: 0 10px;
+			user-select: none;
+			font-size: 12px;
+
+			&:hover {
+				cursor: pointer;
+				background: transparentize($color: white, $amount: 0.95);
+			}
+		}
+	}
+
+	> main {
+		@extend .layout-column;
+
+		padding: $section-spacing;
+		height: calc(100vh - #{$app-bar-height + $menu-height});
+	}
+
+	.slider {
+		-webkit-appearance: none;
+		width: 100%;
+		height: 5px;
+		background: #aaa;
+		outline: none;
+		transition: opacity 0.2s;
+		border-radius: 3px;
+		opacity: 0.7;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 35px;
+			height: 9px;
+			background: $color-white;
+			cursor: pointer;
+			border-radius: 5px;
+		}
+	}
+
+	.player {
+		@extend .flex--noshrink;
+
+		overflow: hidden;
+		height: $player-height;
+
+		.infos {
+			@extend .layout-row;
+
+			background: $color-primary;
+			font-family: monospace;
+			height: $player-infos-height;
+
+			.time {
+				@extend .layout-column;
+				@extend .layout-align--center;
+
+				padding: 0 15px;
+				font-size: 30px;
+				user-select: none;
+				color: $color-white;
+			}
+
+			.current-track {
+				@extend .layout-column;
+				@extend .layout-align--center;
+
+				color: $color-white;
+				margin: 5px;
+				background: darken($color-primary, 10%);
+				padding: 0 15px;
+				flex: 1 1 auto;
+			}
+		}
+
+		.timeline {
+			@extend .layout-column;
+			@extend .layout-align--center;
+
+			height: $timeline-height;
+			background: #333;
+			padding: 0 5px;
+		}
+
+		.controls {
+			@extend .layout-row;
+			@extend .layout-align--space-between;
+
+			user-select: none;
+			height: $controls-height;
+			background: #444;
+
+			button {
+				border: 0;
+				outline-width: 0;
+				background: transparent;
+				height: $controls-height;
+				width: $controls-height;
+				color: $color-white;
+				padding: 0;
+				margin: 0;
+
+				i {
+					pointer-events: none;
+				}
+
+				&:hover {
+					background: transparentize(white, 0.8);
+					cursor: pointer;
+				}
+				&.active,
+				&:active {
+					color: white;
+				}
+				&.active {
+					background: transparentize(white, 0.9);
+				}
+			}
+
+			.playback {
+				@extend .layout-row;
+			}
+
+			.volume {
+				@extend .layout-row;
+				@extend .layout-align--start-center;
+
+				padding-right: 5px;
+			}
+		}
+	}
+
+	.playlist {
+		@extend .layout-row;
+
+		overflow: hidden;
+		position: relative;
+		margin-top: $section-spacing;
+		flex: 1 1 auto;
+
+		.content {
+			@extend .layout-column;
+
+			flex: 1 1 auto;
+			background: $color-primary;
+			color: $color-white;
+			padding: 1px 0;
+			user-select: none;
+
+			.row {
+				@extend .layout-row;
+
+				padding: 2px 0;
+
+				.position {
+					padding: 0 5px;
+				}
+
+				.filename {
+					flex: 1 1 auto;
+				}
+
+				.duration {
+					padding: 0 5px;
+				}
+
+				&.selected {
+					background: $color-highlight;
+				}
+
+				&:hover {
+					cursor: default;
+				}
+			}
+		}
+
+		.scrollbar {
+			width: 20px;
+			height: 100vh;
+			position: relative;
+
+			.scrollbar-track {
+				background: #444;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+
+				.scrollbar-position {
+					background: #666;
+					border-radius: 3px;
+					width: 16px;
+					position: absolute;
+					top: 20px;
+					left: 2px;
+					right: 2px;
+					height: 70px;
+				}
+			}
+		}
+	}
+}
